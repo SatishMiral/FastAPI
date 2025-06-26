@@ -61,3 +61,12 @@ def delete_book(title):
             books.remove(book)
             return {"message": "Book deleted", "book": book}
     return {"message": "Book not found"}
+
+# Implementing simple PATCH request
+@app.patch("/books/edit_book/{title}")
+def edit_book_patch(title, data = Body()):
+    for book in books:
+        if book.get("title") == title:
+            book.update(data)
+            return {"message": "Book updated", "book": book}
+    return {"message": "Book not found"}
