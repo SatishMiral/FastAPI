@@ -21,7 +21,7 @@ def get_books():
 
 # Implementing Path Parameter
 @app.get("/books/{author}")
-def get_book(author):
+def get_book(author: str):
     books_to_return = []
     for book in books:
         if book.get("author").casefold() == author.casefold():
