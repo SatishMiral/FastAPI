@@ -1,3 +1,11 @@
 # Ignore virtual environments
 fastapienv/
 .DS_Store
+__pycache__/
+.env
+.venv/
+.vscode/
+.gitignore
+.git/
+.gitignore
+.gitignore
