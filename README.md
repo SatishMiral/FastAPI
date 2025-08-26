@@ -1,3 +1,6 @@
+source :- Bitfumes on Youtube
+link :- https://youtu.be/7t2alSnE2-I?si=ojDTXq_I4PpJk33e
+
 ## What is FastAPI?
 
 FastAPI is a modern, high-performance Python web framework for building APIs — especially when speed and developer experience matter.
