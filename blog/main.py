@@ -18,19 +18,22 @@ def get_db():
     finally:
         db.close()
 
+# Blog
 @app.post("/blog")
 def create(request: schemas.Blog, db: Session = Depends(get_db)):
-    new_blog = models.Blog(title=request.title, body=request.body)
+    new_blog = models.Blog(title=request.title, body=request.body, user_id=1)
     db.add(new_blog)
     db.commit()
     db.refresh(new_blog)
     return new_blog 
 
+# Get all blogs
 @app.get("/blog", response_model=List[schemas.ShowBlog])
 def all(db: Session = Depends(get_db)):
     blogs = db.query(models.Blog).all()
     return blogs
 
+# Get a blog with id
 @app.get("/blog/{id}", response_model=schemas.ShowBlog)
 def show(id, db: Session = Depends(get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
@@ -38,6 +41,7 @@ def show(id, db: Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Blog with the id {id} is not available")
     return blog
 
+# Update a blog with id
 @app.put("/blog/{id}")
 def update(id: int, request: schemas.Blog, db: Session = Depends(get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id)
@@ -47,6 +51,7 @@ def update(id: int, request: schemas.Blog, db: Session = Depends(get_db)):
     db.commit()
     return "done"
 
+# Delete a blog with id
 @app.delete("/blog/{id}")
 def destroy(id, db: Session = Depends(get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id)
@@ -65,6 +70,7 @@ def create_user(request: schemas.User, db: Session = Depends(get_db)):
     db.refresh(new_user)
     return new_user
 
+# Get a user with id
 @app.get("/user/{id}", response_model=schemas.ShowUser)
 def get_user(id: int, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.id == id).first()
