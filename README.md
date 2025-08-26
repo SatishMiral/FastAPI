@@ -21,4 +21,4 @@ fastapienv\Scripts\activate
 -activate fastapienv like above
 
 ## Run Script
-uvicorn books:app --reload
+uvicorn blog.main:app --reload
