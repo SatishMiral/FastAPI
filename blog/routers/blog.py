@@ -2,7 +2,7 @@
 
 from typing import List
 from fastapi import APIRouter, Depends
-from .. import schemas
+from .. import schemas, oauth2
 from ..database import get_db
 from sqlalchemy.orm import Session
 from ..repository import blog
@@ -14,25 +14,25 @@ router = APIRouter(
 
 # Get all blogs
 @router.get("/", response_model=List[schemas.ShowBlog])
-def all(db: Session = Depends(get_db)):
+def all(db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
     return blog.get_all(db)
 
 # Create a blog
 @router.post("/", tags=["blogs"])
-def create(request: schemas.Blog, db: Session = Depends(get_db)):
+def create(request: schemas.Blog, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
     return blog.create(request, db)
 
 # Get a blog with id
 @router.get("/{id}", response_model=schemas.ShowBlog)
-def show(id, db: Session = Depends(get_db)):
+def show(id, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
     return blog.show(id, db)
 
 # Update a blog with id
 @router.put("/{id}")
-def update(id: int, request: schemas.Blog, db: Session = Depends(get_db)):
+def update(id: int, request: schemas.Blog, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
     return blog.update(id, request, db)
 
 # Delete a blog with id
 @router.delete("/{id}")
-def destroy(id, db: Session = Depends(get_db)):
+def destroy(id, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
     return blog.destroy(id, db)
